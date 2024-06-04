@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "539032547812",
+    "project_id": "proyectoinnovacion-gt2-g1",
+    "storage_bucket": "proyectoinnovacion-gt2-g1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539032547812:android:559e6ce43d2c899aa597f1",
+        "android_client_info": {
+          "package_name": "com.example.proyectoinnovacionpdm2024_gt2_grupo1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8O1VKl94fhclmvSRPi7wzUD2WbmLxFPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
