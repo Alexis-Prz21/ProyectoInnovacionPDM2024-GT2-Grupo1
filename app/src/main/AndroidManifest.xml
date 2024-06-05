@@ -13,6 +13,14 @@
         android:theme="@style/Theme.ProyectoInnovacionPDM2024GT2Grupo1"
         tools:targetApi="31">
         <activity
+            android:name=".RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SubirImgActivity"
+            android:exported="false"
+            android:label="@string/title_activity_subir_img"
+            android:theme="@style/Theme.ProyectoInnovacionPDM2024GT2Grupo1" />
+        <activity
             android:name=".PrincipalActivity"
             android:exported="false" />
         <activity

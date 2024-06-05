@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ProyectoInnovacionPDM2024-GT2-Grupo1</string>
+    <string name="title_activity_subir_img">SubirImgActivity</string>
 </resources>
