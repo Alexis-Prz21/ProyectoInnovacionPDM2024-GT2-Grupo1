@@ -37,38 +37,35 @@
             android:inputType="textPassword"
             android:layout_marginTop="8dp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0500000"
-        tools:ignore="MissingConstraints">
-
-        <Button
-            android:id="@+id/registrarBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Registrar"/>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/accederBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:text="Acceder" />
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Aun no posee una cuenta?"
+            android:textColor="#44546a"
+            android:textSize="17sp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tvRegistrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            android:textColor="#44546a"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textStyle="bold|italic"/>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
