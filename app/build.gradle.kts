@@ -58,8 +58,15 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth-ktx")
 
+    // Dependencia para la autenticación
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+
     // Dependencias para accedes al Firebase Storage
     implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
+
+    // Importando para comprimir imágenes antes de subir a Firebase Storage
+    implementation("id.zelory:compressor:3.0.1")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

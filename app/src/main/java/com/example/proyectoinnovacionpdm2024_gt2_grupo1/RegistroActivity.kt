@@ -1,6 +1,5 @@
 package com.example.proyectoinnovacionpdm2024_gt2_grupo1
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
