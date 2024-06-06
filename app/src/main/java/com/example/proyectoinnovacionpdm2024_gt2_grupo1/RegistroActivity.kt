@@ -68,5 +68,6 @@ class RegistroActivity : AppCompatActivity() {
             putExtra("email", email)
         }
         startActivity(principalIntent)
+        finish()
     }
 }

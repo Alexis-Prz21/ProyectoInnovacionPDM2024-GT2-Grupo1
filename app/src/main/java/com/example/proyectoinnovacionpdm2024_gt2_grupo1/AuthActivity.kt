@@ -54,6 +54,7 @@ class AuthActivity : AppCompatActivity() {
         registrar.setOnClickListener {
             val intent = Intent(this,RegistroActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -77,9 +78,8 @@ class AuthActivity : AppCompatActivity() {
     private fun comprobarSesion() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
-            val intent = Intent(this, PrincipalActivity::class.java)
-            startActivity(intent)
-            finish()
+            val email = currentUser?.email.toString()
+            mostrarPrincipal(email)
         }
     }
 }

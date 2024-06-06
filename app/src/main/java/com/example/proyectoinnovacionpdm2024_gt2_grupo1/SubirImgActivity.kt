@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.proyectoinnovacionpdm2024_gt2_grupo1.databinding.ActivitySubirImgBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
@@ -126,10 +127,19 @@ class SubirImgActivity : AppCompatActivity() {
             }
     }
 
-    private fun regresarHome() {
-        val intent = Intent(this, PrincipalActivity::class.java)
-        startActivity(intent)
+    private fun mostrarPrincipal(email: String) {
+        val principalIntent: Intent = Intent(this, PrincipalActivity::class.java).apply {
+            putExtra("email", email)
+        }
+        startActivity(principalIntent)
         finish()
+    }
+
+    private fun regresarHome() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        // Enviando el email del usuario activo al home page
+        val email = currentUser?.email.toString()
+        mostrarPrincipal(email)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
