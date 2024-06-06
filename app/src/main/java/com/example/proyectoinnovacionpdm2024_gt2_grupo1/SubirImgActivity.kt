@@ -112,7 +112,23 @@ class SubirImgActivity : AppCompatActivity() {
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val now = Date()
         val fileName = formatter.format(now)
-        val storageReference = FirebaseStorage.getInstance().getReference("$fileName")
+        //val storageReference = FirebaseStorage.getInstance().getReference("$fileName") LINEA ELIMINADA
+
+        //NUEVO CODIGO==============================================================================
+
+        // Obtener el UID del usuario actual
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        // Verificar si se obtuvo el UID del usuario
+        if (uid.isNullOrEmpty()) {
+            progressDialog.dismiss()
+            Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val storageReference = FirebaseStorage.getInstance().getReference("images/$uid/$fileName.jpg")
+
+        //==========================================================================================
 
         val compressedUri = Uri.fromFile(compressedImageFile)
         storageReference.putFile(compressedUri)
