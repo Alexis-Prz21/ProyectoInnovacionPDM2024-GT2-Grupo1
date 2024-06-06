@@ -21,6 +21,8 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
+        comprobarSesion()
+
         registrar = findViewById(R.id.tvRegistrar)
         acceder = findViewById(R.id.accederBtn)
         email = findViewById(R.id.emailtET)
@@ -69,5 +71,15 @@ class AuthActivity : AppCompatActivity() {
             putExtra("email", email)
         }
         startActivity(principalIntent)
+        finish()
+    }
+
+    private fun comprobarSesion() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            val intent = Intent(this, PrincipalActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
