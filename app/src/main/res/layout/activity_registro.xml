@@ -16,6 +16,7 @@
             android:id="@+id/regitrarEmailET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:inputType="textEmailAddress"
             android:hint="Email"/>
 
         <EditText
