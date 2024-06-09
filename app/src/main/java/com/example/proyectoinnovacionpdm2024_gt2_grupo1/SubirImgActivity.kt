@@ -2,11 +2,12 @@ package com.example.proyectoinnovacionpdm2024_gt2_grupo1
 
 import android.Manifest
 import android.app.ProgressDialog
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.proyectoinnovacionpdm2024_gt2_grupo1.databinding.ActivitySubirImgBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.yalantis.ucrop.UCrop
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +23,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -34,6 +38,7 @@ class SubirImgActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_STORAGE_PERMISSION = 101
         private const val REQUEST_CODE_SELECT_IMAGE = 100
+        private const val REQUEST_CODE_CROP_IMAGE = 102
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,9 +87,7 @@ class SubirImgActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -112,14 +115,9 @@ class SubirImgActivity : AppCompatActivity() {
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val now = Date()
         val fileName = formatter.format(now)
-        //val storageReference = FirebaseStorage.getInstance().getReference("$fileName") LINEA ELIMINADA
 
-        //NUEVO CODIGO==============================================================================
-
-        // Obtener el UID del usuario actual
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Verificar si se obtuvo el UID del usuario
         if (uid.isNullOrEmpty()) {
             progressDialog.dismiss()
             Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()
@@ -127,8 +125,6 @@ class SubirImgActivity : AppCompatActivity() {
         }
 
         val storageReference = FirebaseStorage.getInstance().getReference("images/$uid/$fileName.jpg")
-
-        //==========================================================================================
 
         val compressedUri = Uri.fromFile(compressedImageFile)
         storageReference.putFile(compressedUri)
@@ -153,7 +149,6 @@ class SubirImgActivity : AppCompatActivity() {
 
     private fun regresarHome() {
         val currentUser = FirebaseAuth.getInstance().currentUser
-        // Enviando el email del usuario activo al home page
         val email = currentUser?.email.toString()
         mostrarPrincipal(email)
     }
@@ -162,15 +157,36 @@ class SubirImgActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
             imageUri = data?.data!!
-            binding.ivPrevisualizar.setImageURI(imageUri)
-            comprimirImagen()
+            iniciarRecorte(imageUri)
+        } else if (requestCode == REQUEST_CODE_CROP_IMAGE && resultCode == RESULT_OK) {
+            val resultUri = UCrop.getOutput(data!!)
+            if (resultUri != null) {
+                imageUri = resultUri
+                binding.ivPrevisualizar.setImageURI(imageUri)
+                comprimirImagen()
+            }
         }
+    }
+
+    private fun iniciarRecorte(uri: Uri) {
+        val destinationUri = Uri.fromFile(File(cacheDir, "croppedImage.jpg"))
+        val options = UCrop.Options().apply {
+            setCompressionQuality(75)
+            setMaxBitmapSize(1080)
+        }
+        UCrop.of(uri, destinationUri)
+            .withOptions(options)
+            .withAspectRatio(1f, 1f)
+            .withMaxResultSize(1080, 1080)
+            .start(this, REQUEST_CODE_CROP_IMAGE)
     }
 
     private fun comprimirImagen() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("SubirImgActivity", "Iniciando compresión de imagen para URI: $imageUri")
                 val file = getFileFromUri(imageUri)
+                Log.d("SubirImgActivity", "Archivo obtenido: ${file.absolutePath}")
                 compressedImageFile = Compressor.compress(this@SubirImgActivity, file) {
                     default(width = 1080, height = 1080, quality = 75)
                 }
@@ -179,6 +195,7 @@ class SubirImgActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    Log.e("SubirImgActivity", "Error al comprimir la imagen", e)
                     Toast.makeText(this@SubirImgActivity, "Error al comprimir la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -186,12 +203,20 @@ class SubirImgActivity : AppCompatActivity() {
     }
 
     private fun getFileFromUri(uri: Uri): File {
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, filePathColumn, null, null, null)
-        cursor!!.moveToFirst()
-        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-        val filePath = cursor.getString(columnIndex)
-        cursor.close()
-        return File(filePath)
+        val contentResolver: ContentResolver = contentResolver
+        val file = File(cacheDir, "tempImageFile")
+        try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Log.d("SubirImgActivity", "Archivo copiado correctamente: ${file.absolutePath}")
+        } catch (e: Exception) {
+            Log.e("SubirImgActivity", "Error al obtener archivo desde URI", e)
+        }
+        return file
     }
 }
