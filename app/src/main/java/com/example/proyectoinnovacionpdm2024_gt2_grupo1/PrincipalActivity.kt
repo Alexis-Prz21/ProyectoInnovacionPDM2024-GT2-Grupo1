@@ -1,6 +1,7 @@
 package com.example.proyectoinnovacionpdm2024_gt2_grupo1
 
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,7 @@ class PrincipalActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private val imageList = mutableListOf<ImageItem>()//nuevo
     private lateinit var adapter: ImageAdapter//nuevo
+    private lateinit var usernameText: TextView // Nuevo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class PrincipalActivity : AppCompatActivity() {
         cerrarSesion = findViewById(R.id.cerrarSesionBtn)
         agregarFab = findViewById(R.id.fab)
         recyclerView = findViewById(R.id.recyclerView)
+        usernameText = findViewById(R.id.tvUsername) // Nuevo
 
         val bundle = intent.extras
         val email:String? = bundle?.getString("email")
@@ -44,6 +47,21 @@ class PrincipalActivity : AppCompatActivity() {
         loadUserImages()//nuevo
 
         //==========================================================================================
+
+        // Recuperar el username guardado y establecerlo en el TextView
+        val sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedUsername = sharedPref.getString("username", "")
+        usernameText.text = savedUsername
+
+
+        //Botón icono que envía a la vista editar usuario---------
+        val Button = findViewById<Button>(R.id.userName)
+        Button.setOnClickListener {
+            val intent = Intent(this,AgregarUsername::class.java)
+            startActivity(intent)
+        }
+        //------------------------------------------------------------------------------------------
+
     }
 
     private fun Setup(email:String) {
@@ -87,4 +105,13 @@ class PrincipalActivity : AppCompatActivity() {
         }
     }
     //==============================================================================================
+
+    override fun onResume() {
+        super.onResume()
+        // Actualizar el TextView con el valor guardado en SharedPreferences
+        val sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedUsername = sharedPref.getString("username", "")
+        usernameText.text = savedUsername
+    }
+
 }

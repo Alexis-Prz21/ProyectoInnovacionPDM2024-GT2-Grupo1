@@ -66,7 +66,7 @@ dependencies {
     // Dependencia para la autenticación
     implementation("com.google.firebase:firebase-auth:23.0.0")
 
-    // Dependencias para accedes al Firebase Storage
+    // Dependencias para acceder al Firebase Storage
     implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
     implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
 
