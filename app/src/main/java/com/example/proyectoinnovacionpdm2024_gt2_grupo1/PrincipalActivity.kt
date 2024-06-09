@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -52,10 +54,16 @@ class PrincipalActivity : AppCompatActivity() {
 
         cerrarSesion.setOnClickListener() {
             FirebaseAuth.getInstance().signOut()
-            // Volviendo a la pantalla anterior
-            val intent = Intent(this,AuthActivity::class.java)
-            startActivity(intent)
-            finish()
+            // Cierra sesión de Google
+            GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).signOut().addOnCompleteListener {
+                // Revoca el acceso para que se pueda seleccionar otra cuenta
+                GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).revokeAccess().addOnCompleteListener {
+                    // Volviendo a la pantalla de autenticación
+                    val intent = Intent(this, AuthActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
 
         agregarFab.setOnClickListener {
