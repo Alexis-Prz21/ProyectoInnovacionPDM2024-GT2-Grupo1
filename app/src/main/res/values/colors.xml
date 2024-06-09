@@ -5,4 +5,6 @@
     <color name="colorPrimary">#039BE5</color>
     <color name="colorPrimaryDark">#2C384A</color>
     <color name="background">#ECEFF1</color>
+    <color name="orange">#f3cb7c</color>
+    <color name="trasblack">#88000000</color>
 </resources>
