@@ -53,12 +53,15 @@ class PrincipalActivity : AppCompatActivity() {
         cerrarSesion.setOnClickListener() {
             FirebaseAuth.getInstance().signOut()
             // Volviendo a la pantalla anterior
-            onBackPressedDispatcher.onBackPressed()
+            val intent = Intent(this,AuthActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         agregarFab.setOnClickListener {
             val intent = Intent(this, SubirImgActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
