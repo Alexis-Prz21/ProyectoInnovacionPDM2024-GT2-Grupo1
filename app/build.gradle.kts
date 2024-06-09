@@ -74,4 +74,7 @@ dependencies {
 
     //Dependencia para acceder a Piccaso
     implementation("com.squareup.picasso:picasso:2.8")
+
+    // Dependencia para recortar imágenes
+    implementation("com.github.yalantis:ucrop:2.2.8")
 }
