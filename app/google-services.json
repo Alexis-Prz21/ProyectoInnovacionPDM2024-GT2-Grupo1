@@ -12,7 +12,12 @@
           "package_name": "com.example.proyectoinnovacionpdm2024_gt2_grupo1"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "539032547812-2epdjbhkk221nbcpmlhi2v1dsf34pd5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD8O1VKl94fhclmvSRPi7wzUD2WbmLxFPg"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539032547812-2epdjbhkk221nbcpmlhi2v1dsf34pd5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

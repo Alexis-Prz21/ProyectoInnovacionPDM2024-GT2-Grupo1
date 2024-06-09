@@ -46,6 +46,17 @@
             android:textAlignment="center"
             android:text="Acceder" />
 
+        <Button
+            android:id="@+id/iniciarGoogleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_google"
+            android:text="Iniciar con Google" />
+
         <TextView
             android:id="@+id/tvInfo"
             android:layout_width="match_parent"

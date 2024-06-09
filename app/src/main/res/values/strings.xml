@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ProyectoInnovacionPDM2024-GT2-Grupo1</string>
     <string name="title_activity_subir_img">SubirImgActivity</string>
+
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+
 </resources>
