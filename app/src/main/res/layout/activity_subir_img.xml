@@ -24,7 +24,8 @@
             android:layout_height="200dp"
             android:layout_marginVertical="30dp"
             android:layout_marginBottom="16dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="Imagen previsualizado" />
 
     </LinearLayout>
 
