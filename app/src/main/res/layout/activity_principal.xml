@@ -67,7 +67,7 @@
     <Button
         android:id="@+id/cerrarSesionBtn"
         android:layout_width="160dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_weight="1"
         android:text="Cerrar Sesión"
         android:textColor="@color/whitenew"
@@ -84,7 +84,7 @@
     <Button
         android:id="@+id/userName"
         android:layout_width="160dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_weight="1"
         android:text="Usuario"
         android:textColor="@color/whitenew"
